@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dysnpslhua5v2"]
+
+[ext_resource type="Texture2D" uid="uid://ph71pw2ode07" path="res://assets/Prototype textures/Gray/Prototype_Grid_Gray_07-512x512.png" id="1_g7g4h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ia1lp"]
+albedo_texture = ExtResource("1_g7g4h")
+uv1_scale = Vector3(10, 10, 10)
+
+[node name="FloorTest" type="Node3D" unique_id=1524992410]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=885962851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4630332, 0.02961564, -0.23399639)
+material_override = SubResource("StandardMaterial3D_ia1lp")
+use_collision = true
+size = Vector3(80, 0.5, 80)

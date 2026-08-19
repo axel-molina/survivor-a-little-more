@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dllkirmnjk2yx"]
+
+[ext_resource type="PackedScene" uid="uid://dysnpslhua5v2" path="res://scenes/floor_test.tscn" id="1_j8ivh"]
+[ext_resource type="PackedScene" uid="uid://c6xk4y8t3qw4e" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://b5mwfh4nulrhm" path="res://scripts/isometric_camera.gd" id="3_camera"]
+[ext_resource type="PackedScene" uid="uid://clubayjke4ypj" path="res://assets/Low Poly Weapon Pack with Image Texture - by Kickin It Studios/Weapons for Itch with image texture.fbx_Bat.fbx" id="4_7ddre"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7ddre"]
+sky_top_color = Color(0.38533452, 0.6168895, 0.7569055, 1)
+sky_horizon_color = Color(1.0635815, 1.1060183, 1.1236944, 1)
+ground_bottom_color = Color(0.48976958, 0.42796168, 0.35865074, 1)
+ground_horizon_color = Color(1.0635815, 1.1060183, 1.1236944, 1)
+
+[sub_resource type="Sky" id="Sky_qjeyg"]
+sky_material = SubResource("ProceduralSkyMaterial_7ddre")
+
+[sub_resource type="Environment" id="Environment_3qnke"]
+background_mode = 2
+sky = SubResource("Sky_qjeyg")
+
+[node name="Node3D" type="Node3D" unique_id=1586930889]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=654173366]
+environment = SubResource("Environment_3qnke")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1689875618]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(0.8884254, 0.88842535, 0.88842535, 1)
+shadow_enabled = true
+directional_shadow_max_distance = 167.0
+
+[node name="FloorTest" parent="." unique_id=1524992410 instance=ExtResource("1_j8ivh")]
+
+[node name="Player" parent="." unique_id=1827364337 instance=ExtResource("2_player")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0.30027997, 6.085767)
+move_speed = 3.0
+acceleration = 10.0
+friction = 40.0
+rotation_speed = 15.0
+
+[node name="IsometricCamera" type="Camera3D" parent="." unique_id=1948201948]
+transform = Transform3D(0.70710677, -0.42426407, 0.5656854, 0, 0.8, 0.6, -0.70710677, -0.42426407, 0.5656854, 10, 14, 10)
+keep_aspect = 0
+script = ExtResource("3_camera")
+target_node_path = NodePath("../Player")
+
+[node name="Bat" parent="." unique_id=666127016 instance=ExtResource("4_7ddre")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.933735, 0.32385933, 6.1130404)

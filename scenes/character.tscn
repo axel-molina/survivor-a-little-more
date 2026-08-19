@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://mjlthv0rqn0t"]
+
+[ext_resource type="PackedScene" uid="uid://ci6hpcoeeub3n" path="res://Animations/character.glb" id="1_agfs1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_my7n2"]
+animation = &"Backward Run"
+use_custom_timeline = true
+timeline_length = 0.8
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_agfs1"]
+animation = &"Idle"
+use_custom_timeline = true
+timeline_length = 2.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lrhn5"]
+animation = &"Meele Attack"
+use_custom_timeline = true
+timeline_length = 1.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rkhd4"]
+animation = &"Run"
+use_custom_timeline = true
+timeline_length = 0.8
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dp8ca"]
+animation = &"Strafe Left"
+use_custom_timeline = true
+timeline_length = 0.8
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0lw5n"]
+animation = &"Strafe Right"
+use_custom_timeline = true
+timeline_length = 0.8
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lrhn5"]
+advance_mode = 2
+
+[sub_resource type="Curve" id="Curve_j8ivh"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_my7n2"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_j8ivh")
+
+[sub_resource type="Curve" id="Curve_nd71p"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dp8ca"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_nd71p")
+
+[sub_resource type="Curve" id="Curve_0lw5n"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0lw5n"]
+xfade_time = 0.1
+xfade_curve = SubResource("Curve_0lw5n")
+
+[sub_resource type="Curve" id="Curve_2cgup"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2cgup"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_2cgup")
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="Curve" id="Curve_dp8ca"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a5ia6"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_dp8ca")
+
+[sub_resource type="Curve" id="Curve_7ddre"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0dpix"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_7ddre")
+
+[sub_resource type="Curve" id="Curve_2hyy3"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2hyy3"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_2hyy3")
+
+[sub_resource type="Curve" id="Curve_irmqu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_irmqu"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_irmqu")
+
+[sub_resource type="Curve" id="Curve_7eonc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7eonc"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_7eonc")
+
+[sub_resource type="Curve" id="Curve_50cep"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_50cep"]
+xfade_time = 0.25
+xfade_curve = SubResource("Curve_50cep")
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_mb8ii"]
+"states/Backward Run/node" = SubResource("AnimationNodeAnimation_my7n2")
+"states/Backward Run/position" = Vector2(225.64746, 236.11626)
+states/Idle/node = SubResource("AnimationNodeAnimation_agfs1")
+states/Idle/position = Vector2(379.29437, 100.1875)
+"states/Meele Attack/node" = SubResource("AnimationNodeAnimation_lrhn5")
+"states/Meele Attack/position" = Vector2(380.08875, -45.179993)
+states/Run/node = SubResource("AnimationNodeAnimation_rkhd4")
+states/Run/position = Vector2(379.69156, 235)
+"states/Strafe Left/node" = SubResource("AnimationNodeAnimation_dp8ca")
+"states/Strafe Left/position" = Vector2(535.3662, 100.09375)
+"states/Strafe Right/node" = SubResource("AnimationNodeAnimation_0lw5n")
+"states/Strafe Right/position" = Vector2(534.39746, 236.83719)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_lrhn5"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_my7n2"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_dp8ca"), "Idle", "Meele Attack", SubResource("AnimationNodeStateMachineTransition_0lw5n"), "Meele Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_2cgup"), "Idle", "Backward Run", SubResource("AnimationNodeStateMachineTransition_a5ia6"), "Backward Run", "Idle", SubResource("AnimationNodeStateMachineTransition_0dpix"), "Idle", "Strafe Left", SubResource("AnimationNodeStateMachineTransition_2hyy3"), "Idle", "Strafe Right", SubResource("AnimationNodeStateMachineTransition_irmqu"), "Strafe Left", "Idle", SubResource("AnimationNodeStateMachineTransition_7eonc"), "Strafe Right", "Idle", SubResource("AnimationNodeStateMachineTransition_50cep")]
+graph_offset = Vector2(95.81745, -97.06747)
+
+[node name="Character" unique_id=1827364337 instance=ExtResource("1_agfs1")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="AnimationPlayer" parent_id_path=PackedInt32Array(1093432387) index="0" unique_id=2003236858]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_mb8ii")
+anim_player = NodePath("..")
