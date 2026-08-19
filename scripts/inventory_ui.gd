@@ -1,0 +1,162 @@
+class_name InventoryUI
+extends CanvasLayer
+
+## Barra de inventario rápido (hotbar) en la parte inferior central de la pantalla.
+## Contiene slots numerados donde se equipan automáticamente los objetos recogidos.
+
+signal item_selected(slot_index: int, item_data: Dictionary)
+
+@export var slot_count: int = 6
+@export var slot_size: Vector2 = Vector2(64, 64)
+@export var slot_spacing: float = 6.0
+
+var _slots: Array[InventorySlotUI] = []
+var _selected_slot: int = -1
+
+@onready var hotbar_container: HBoxContainer = $HotbarAnchor/HotbarPanel/MarginContainer/HotbarContainer
+
+
+func _ready() -> void:
+	_create_slots()
+	# Seleccionar el primer slot por defecto
+	select_slot(0)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Teclas numéricas 1-6 para seleccionar slots
+	if event is InputEventKey and event.pressed and not event.echo:
+		var key_num := -1
+		match event.keycode:
+			KEY_1: key_num = 0
+			KEY_2: key_num = 1
+			KEY_3: key_num = 2
+			KEY_4: key_num = 3
+			KEY_5: key_num = 4
+			KEY_6: key_num = 5
+
+		if key_num >= 0 and key_num < _slots.size():
+			select_slot(key_num)
+
+
+func _create_slots() -> void:
+	if not hotbar_container:
+		return
+
+	for i in range(slot_count):
+		var slot := _create_slot_node(i)
+		hotbar_container.add_child(slot)
+		_slots.append(slot)
+		slot.slot_selected.connect(_on_slot_selected)
+
+
+func _create_slot_node(index: int) -> InventorySlotUI:
+	var slot := InventorySlotUI.new()
+	slot.slot_index = index
+	slot.name = "Slot%d" % index
+	slot.custom_minimum_size = slot_size
+
+	# Estilo del slot (fondo oscuro semi-transparente con borde)
+	var slot_style := StyleBoxFlat.new()
+	slot_style.bg_color = Color(0.08, 0.08, 0.12, 0.7)
+	slot_style.border_color = Color(0.35, 0.35, 0.4, 0.8)
+	slot_style.set_border_width_all(2)
+	slot_style.set_corner_radius_all(6)
+	slot.add_theme_stylebox_override("panel", slot_style)
+
+	# MarginContainer para el ícono
+	var margin := MarginContainer.new()
+	margin.name = "MarginContainer"
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 14)
+	margin.add_theme_constant_override("margin_left", 6)
+	margin.add_theme_constant_override("margin_right", 6)
+	slot.add_child(margin)
+
+	# TextureRect para el ícono del ítem
+	var icon_rect := TextureRect.new()
+	icon_rect.name = "IconRect"
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	icon_rect.visible = false
+	margin.add_child(icon_rect)
+
+	# Label con el número del slot
+	var number_label := Label.new()
+	number_label.name = "NumberLabel"
+	number_label.text = str(index + 1)
+	number_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	number_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	number_label.offset_top = -18
+	number_label.add_theme_font_size_override("font_size", 12)
+	number_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7, 0.9))
+	slot.add_child(number_label)
+
+	# Panel de selección (borde dorado)
+	var selection_border := Panel.new()
+	selection_border.name = "SelectionBorder"
+	selection_border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	selection_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	selection_border.visible = false
+
+	var sel_style := StyleBoxFlat.new()
+	sel_style.bg_color = Color(0.0, 0.0, 0.0, 0.0) # Transparente
+	sel_style.border_color = Color(1.0, 0.85, 0.3, 1.0) # Borde dorado
+	sel_style.set_border_width_all(3)
+	sel_style.set_corner_radius_all(6)
+	selection_border.add_theme_stylebox_override("panel", sel_style)
+	slot.add_child(selection_border)
+
+	return slot
+
+
+func select_slot(index: int) -> void:
+	if index < 0 or index >= _slots.size():
+		return
+
+	# Deseleccionar el anterior
+	if _selected_slot >= 0 and _selected_slot < _slots.size():
+		_slots[_selected_slot].set_selected(false)
+
+	_selected_slot = index
+	_slots[_selected_slot].set_selected(true)
+
+	# Emitir señal con los datos del slot
+	var data: Dictionary = _slots[_selected_slot].item_data
+	item_selected.emit(_selected_slot, data)
+
+
+func _on_slot_selected(slot_index: int) -> void:
+	select_slot(slot_index)
+
+
+## Añade un ítem al primer slot vacío disponible. Retorna el índice del slot o -1 si está lleno.
+func add_item(item_name: String, icon: Texture2D, weapon_scene: PackedScene = null) -> int:
+	for i in range(_slots.size()):
+		if _slots[i].is_empty():
+			var data := {
+				"name": item_name,
+				"icon": icon,
+				"weapon_scene": weapon_scene,
+			}
+			_slots[i].set_item(data)
+			return i
+	return -1 # Inventario lleno
+
+
+## Obtiene los datos del slot seleccionado actualmente
+func get_selected_item_data() -> Dictionary:
+	if _selected_slot >= 0 and _selected_slot < _slots.size():
+		return _slots[_selected_slot].item_data
+	return {}
+
+
+## Obtiene el índice del slot seleccionado
+func get_selected_slot() -> int:
+	return _selected_slot
+
+
+## Limpia un slot específico
+func clear_slot(index: int) -> void:
+	if index >= 0 and index < _slots.size():
+		_slots[index].clear_item()

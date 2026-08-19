@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dpsa85b98k1t9" path="res://scripts/pickup_item.gd" id="1_pickup"]
 [ext_resource type="PackedScene" uid="uid://clubayjke4ypj" path="res://assets/Low Poly Weapon Pack with Image Texture - by Kickin It Studios/Weapons for Itch with image texture.fbx_Bat.fbx" id="2_model"]
+[ext_resource type="Texture2D" path="res://assets/weapons icons/bate.svg" id="3_icon"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pickup"]
 radius = 0.9
@@ -11,6 +12,7 @@ script = ExtResource("1_pickup")
 item_name = "Bate"
 action_text = "para tomar Bate"
 weapon_packed_scene = ExtResource("2_model")
+item_icon = ExtResource("3_icon")
 outline_color = Color(1, 0.15, 0.15, 1)
 outline_width = 0.008
 
@@ -18,3 +20,4 @@ outline_width = 0.008
 shape = SubResource("SphereShape3D_pickup")
 
 [node name="BatModel" parent="." unique_id=666127018 instance=ExtResource("2_model")]
+

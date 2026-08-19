@@ -8,6 +8,7 @@ extends Area3D
 @export var item_name: String = "Bate"
 @export var action_text: String = "para tomar Bate"
 @export var weapon_packed_scene: PackedScene = preload("res://assets/Low Poly Weapon Pack with Image Texture - by Kickin It Studios/Weapons for Itch with image texture.fbx_Bat.fbx")
+@export var item_icon: Texture2D ## Ícono del objeto para mostrar en el inventario
 
 @export_group("Resaltado Visual (Outline)")
 @export var target_mesh: MeshInstance3D
@@ -97,6 +98,11 @@ func pickup(player: PlayerController) -> void:
 	if player.get_current_interactable() == self:
 		player.set_current_interactable(null)
 
+	# Añadir al inventario
+	var inventory := get_tree().get_first_node_in_group("inventory_ui") as InventoryUI
+	if inventory:
+		inventory.add_item(item_name, item_icon, weapon_packed_scene)
+
 	# Equipar en la mano del jugador
 	if weapon_packed_scene:
 		player.equip_right_hand(weapon_packed_scene)
@@ -104,3 +110,4 @@ func pickup(player: PlayerController) -> void:
 	# Eliminar el objeto del suelo (o el nodo raíz del bate)
 	var root_node := get_parent() if get_parent() and get_parent().name == "Bat" else self
 	root_node.queue_free()
+
