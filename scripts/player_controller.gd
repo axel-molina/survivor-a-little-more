@@ -40,6 +40,12 @@ enum MovementMode {
 @export var enable_custom_crosshair: bool = true
 @export var crosshair_texture: Texture2D
 
+@export_group("Equipamiento / Armas")
+@export var right_hand_attachment: BoneAttachment3D
+@export var weapon_offset_position: Vector3 = Vector3(0.0, 0.0, 0.0)
+@export var weapon_offset_rotation_degrees: Vector3 = Vector3(0.0, 0.0, 0.0)
+@export var weapon_scale: Vector3 = Vector3(1.0, 1.0, 1.0)
+
 # -----------------------------------------------------------------------------
 # VARIABLES PÚBLICAS Y DE APUNTADO (Para armas / mira en el futuro)
 # -----------------------------------------------------------------------------
@@ -52,6 +58,8 @@ var is_attacking: bool = false
 # -----------------------------------------------------------------------------
 var _playback: AnimationNodeStateMachinePlayback
 var _camera: Camera3D
+var _current_interactable: PickupItem
+var _equipped_weapon_instance: Node3D
 
 
 func _ready() -> void:
@@ -89,6 +97,12 @@ func _physics_process(delta: float) -> void:
 	_update_animations()
 
 	move_and_slide()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact"):
+		if _current_interactable:
+			_current_interactable.pickup(self)
 
 
 # -----------------------------------------------------------------------------
@@ -276,6 +290,7 @@ func _setup_default_inputs() -> void:
 		"move_right": [KEY_D, KEY_RIGHT],
 		"move_forward": [KEY_W, KEY_UP],
 		"move_backward": [KEY_S, KEY_DOWN],
+		"interact": [KEY_F],
 	}
 
 	for action in default_keys:
@@ -291,6 +306,69 @@ func _setup_default_inputs() -> void:
 		var mouse_event := InputEventMouseButton.new()
 		mouse_event.button_index = MOUSE_BUTTON_LEFT
 		InputMap.action_add_event("attack", mouse_event)
+
+
+# -----------------------------------------------------------------------------
+# SISTEMA DE INTERACCIÓN Y EQUIPAMIENTO DE ARMAS
+# -----------------------------------------------------------------------------
+func set_current_interactable(item: PickupItem) -> void:
+	_current_interactable = item
+
+
+func get_current_interactable() -> PickupItem:
+	return _current_interactable
+
+
+## Busca o crea dinámicamente un nodo BoneAttachment3D en el hueso de la mano derecha
+func _get_or_create_hand_attachment() -> BoneAttachment3D:
+	if is_instance_valid(right_hand_attachment):
+		return right_hand_attachment
+
+	# Buscar Skeleton3D dentro del personaje
+	var skeleton: Skeleton3D = find_child("Skeleton3D", true, false) as Skeleton3D
+	if not skeleton:
+		push_warning("Skeleton3D no encontrado en el personaje para anclar arma.")
+		return null
+
+	# Comprobar si ya existe un BoneAttachment3D para la mano derecha
+	for child in skeleton.get_children():
+		if child is BoneAttachment3D:
+			var bone_att := child as BoneAttachment3D
+			if bone_att.bone_name == "mixamorig:RightHand" or bone_att.name == "RightHandAttachment":
+				right_hand_attachment = bone_att
+				return right_hand_attachment
+
+	# Crear BoneAttachment3D dinámicamente
+	var attachment := BoneAttachment3D.new()
+	attachment.name = "RightHandAttachment"
+	attachment.bone_name = "mixamorig:RightHand"
+	skeleton.add_child(attachment)
+	right_hand_attachment = attachment
+	return right_hand_attachment
+
+
+## Equipa un arma instanciando su escena en el BoneAttachment3D de la mano derecha
+func equip_right_hand(weapon_scene: PackedScene) -> void:
+	var attachment := _get_or_create_hand_attachment()
+	if not attachment:
+		push_error("No se pudo obtener el BoneAttachment3D de la mano derecha.")
+		return
+
+	# Limpiar cualquier arma previa equipada en la mano
+	if is_instance_valid(_equipped_weapon_instance):
+		_equipped_weapon_instance.queue_free()
+
+	for child in attachment.get_children():
+		child.queue_free()
+
+	# Instanciar el modelo del arma
+	var weapon: Node3D = weapon_scene.instantiate() as Node3D
+	if weapon:
+		attachment.add_child(weapon)
+		weapon.position = weapon_offset_position
+		weapon.rotation_degrees = weapon_offset_rotation_degrees
+		weapon.scale = weapon_scale
+		_equipped_weapon_instance = weapon
 
 
 # -----------------------------------------------------------------------------
