@@ -9,12 +9,8 @@ extends CharacterBody3D
 # -----------------------------------------------------------------------------
 signal attacked(target_position: Vector3)
 
-# Nombres exactos de las animaciones en el AnimationTree StateMachine
-const ANIM_IDLE: StringName = &"Idle"
-const ANIM_RUN: StringName = &"Run"
-const ANIM_BACKWARD_RUN: StringName = &"Backward Run"
-const ANIM_STRAFE_LEFT: StringName = &"Strafe Left"
-const ANIM_STRAFE_RIGHT: StringName = &"Strafe Right"
+# Nombres de los estados en el AnimationTree StateMachine
+const ANIM_MOVEMENT: StringName = &"Movement"
 const ANIM_MEELE_ATTACK: StringName = &"Meele Attack"
 
 enum MovementMode {
@@ -28,6 +24,9 @@ enum MovementMode {
 @export var acceleration: float = 20.0
 @export var friction: float = 18.0
 @export var rotation_speed: float = 20.0 # Velocidad de giro hacia el mouse (0 = instantáneo)
+
+@export_group("Animaciones")
+@export var blend_smoothing_speed: float = 12.0 ## Velocidad de interpolación del BlendSpace2D
 
 @export_group("Físicas")
 @export var gravity: float = 9.8
@@ -60,6 +59,7 @@ var _playback: AnimationNodeStateMachinePlayback
 var _camera: Camera3D
 var _current_interactable: PickupItem
 var _equipped_weapon_instance: Node3D
+var _current_blend_position: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -94,7 +94,7 @@ func _physics_process(delta: float) -> void:
 	_handle_aiming(delta)
 	_handle_movement(delta)
 	_handle_attack_input()
-	_update_animations()
+	_update_animations(delta)
 
 	move_and_slide()
 
@@ -113,7 +113,7 @@ func _handle_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 	else:
 		if velocity.y < 0:
-			velocity.y = -0.1 # Pequeña fuerza hacia abajo para mantener contacto con el suelo
+			velocity.y = 0.0
 
 
 # -----------------------------------------------------------------------------
@@ -210,9 +210,9 @@ func trigger_meele_attack() -> void:
 
 
 # -----------------------------------------------------------------------------
-# ACTUALIZACIÓN DEL ANIMATION TREE
+# ACTUALIZACIÓN DEL ANIMATION TREE (BlendSpace2D + StateMachine)
 # -----------------------------------------------------------------------------
-func _update_animations() -> void:
+func _update_animations(delta: float) -> void:
 	if not _playback:
 		return
 
@@ -225,52 +225,42 @@ func _update_animations() -> void:
 		else:
 			return # Dejar que termine la animación de ataque
 
+	# Asegurar que el estado activo sea Movement
+	if current_node != ANIM_MOVEMENT and not is_attacking:
+		_playback.travel(ANIM_MOVEMENT)
+
 	var input_vector := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var has_movement_input := input_vector.length_squared() > 0.01
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
 
-	# Si no hay entrada de movimiento activa o la velocidad es mínima, transicionar directamente a Idle
-	if not has_movement_input or horizontal_speed <= 0.15:
-		if current_node != ANIM_IDLE:
-			_playback.travel(ANIM_IDLE)
-		return
+	var target_blend := Vector2.ZERO
 
-	# Si hay entrada de movimiento activa y el personaje se está desplazando:
-	var target_anim := ANIM_RUN
+	if has_movement_input and horizontal_speed > 0.05:
+		if movement_mode == MovementMode.CHARACTER_ORIENTED:
+			# X = Strafe (-1.0 Izquierda / A, +1.0 Derecha / D)
+			# Y = Avance (+1.0 Adelante / W, -1.0 Atrás / S)
+			# input_vector.x: -1 (A) a +1 (D)
+			# input_vector.y: -1 (W) a +1 (S) -> Invertimos Y para que W sea +1.0
+			target_blend = Vector2(input_vector.x, -input_vector.y)
+		else:
+			# En modo cámara, calcular proyección relativa a la orientación del personaje
+			var char_forward := Vector3(sin(model_node.rotation.y), 0.0, cos(model_node.rotation.y)).normalized()
+			var char_right := char_forward.cross(Vector3.UP).normalized()
+			var move_dir := Vector3(velocity.x, 0.0, velocity.z).normalized()
+			var forward_amt := char_forward.dot(move_dir)
+			var right_amt := char_right.dot(move_dir)
+			target_blend = Vector2(right_amt, forward_amt)
 
-	if movement_mode == MovementMode.CHARACTER_ORIENTED:
-		# En modo orientado al personaje:
-		# W o diagonales hacia adelante -> Run
-		# S o diagonales hacia atrás -> Backward Run
-		# A (lateral izquierda) -> Strafe Left
-		# D (lateral derecha) -> Strafe Right
-		if input_vector.y < -0.3:
-			target_anim = ANIM_RUN
-		elif input_vector.y > 0.3:
-			target_anim = ANIM_BACKWARD_RUN
-		elif input_vector.x < -0.1:
-			target_anim = ANIM_STRAFE_LEFT
-		elif input_vector.x > 0.1:
-			target_anim = ANIM_STRAFE_RIGHT
-	else:
-		# En modo cámara, evaluar respecto a la orientación relativa del personaje
-		var char_forward := Vector3(sin(model_node.rotation.y), 0.0, cos(model_node.rotation.y)).normalized()
-		var char_right := char_forward.cross(Vector3.UP).normalized()
-		var move_dir := Vector3(velocity.x, 0.0, velocity.z).normalized()
-		var forward_dot := char_forward.dot(move_dir)
-		var right_dot := char_right.dot(move_dir)
+		# Normalizar para diagonales suaves
+		if target_blend.length_squared() > 1.0:
+			target_blend = target_blend.normalized()
 
-		if forward_dot > 0.5:
-			target_anim = ANIM_RUN
-		elif forward_dot < -0.5:
-			target_anim = ANIM_BACKWARD_RUN
-		elif right_dot < -0.3:
-			target_anim = ANIM_STRAFE_LEFT
-		elif right_dot > 0.3:
-			target_anim = ANIM_STRAFE_RIGHT
+	# Interpolar suavemente hacia la posición objetivo en el BlendSpace2D
+	_current_blend_position = _current_blend_position.move_toward(target_blend, blend_smoothing_speed * delta)
 
-	if current_node != target_anim:
-		_playback.travel(target_anim)
+	# Actualizar el parámetro blend_position del BlendSpace2D
+	if animation_tree:
+		animation_tree.set("parameters/Movement/blend_position", _current_blend_position)
 
 
 # -----------------------------------------------------------------------------
