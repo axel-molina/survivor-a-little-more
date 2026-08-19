@@ -1,5 +1,5 @@
 class_name InventorySlotUI
-extends PanelContainer
+extends Control
 
 ## Representa un slot individual en la barra de inventario.
 
@@ -16,7 +16,8 @@ var is_selected: bool = false
 
 
 func _ready() -> void:
-	number_label.text = str(slot_index + 1)
+	if number_label:
+		number_label.text = str(slot_index + 1)
 	_update_visual()
 
 

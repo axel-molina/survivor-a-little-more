@@ -57,24 +57,31 @@ func _create_slot_node(index: int) -> InventorySlotUI:
 	slot.slot_index = index
 	slot.name = "Slot%d" % index
 	slot.custom_minimum_size = slot_size
+	slot.mouse_filter = Control.MOUSE_FILTER_STOP
 
-	# Estilo del slot (fondo oscuro semi-transparente con borde)
+	# Panel de fondo oscuro semi-transparente
+	var bg_panel := Panel.new()
+	bg_panel.name = "BgPanel"
+	bg_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 	var slot_style := StyleBoxFlat.new()
 	slot_style.bg_color = Color(0.08, 0.08, 0.12, 0.7)
 	slot_style.border_color = Color(0.35, 0.35, 0.4, 0.8)
 	slot_style.set_border_width_all(2)
 	slot_style.set_corner_radius_all(6)
-	slot.add_theme_stylebox_override("panel", slot_style)
+	bg_panel.add_theme_stylebox_override("panel", slot_style)
+	slot.add_child(bg_panel)
 
 	# MarginContainer centrado para el ícono
 	var margin := MarginContainer.new()
 	margin.name = "MarginContainer"
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_top", 8)
-	margin.add_theme_constant_override("margin_bottom", 8)
-	margin.add_theme_constant_override("margin_left", 8)
-	margin.add_theme_constant_override("margin_right", 8)
-	margin.mouse_filter = Control.MOUSE_FILTER_PASS
+	margin.add_theme_constant_override("margin_top", 10)
+	margin.add_theme_constant_override("margin_bottom", 10)
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slot.add_child(margin)
 
 	# TextureRect para el ícono del ítem (centrado exactamente en el slot)
@@ -86,19 +93,19 @@ func _create_slot_node(index: int) -> InventorySlotUI:
 	icon_rect.visible = false
 	margin.add_child(icon_rect)
 
-	# Label con el número del slot en la esquina inferior izquierda
+	# Label con el número del slot colocado estrictamente en la esquina inferior izquierda
 	var number_label := Label.new()
 	number_label.name = "NumberLabel"
 	number_label.text = str(index + 1)
 	number_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	number_label.offset_left = 6
-	number_label.offset_top = -22
-	number_label.offset_right = 26
-	number_label.offset_bottom = -2
+	number_label.offset_top = -20
+	number_label.offset_right = 24
+	number_label.offset_bottom = -3
 	number_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	number_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	number_label.add_theme_font_size_override("font_size", 11)
-	number_label.add_theme_color_override("font_color", Color(0.8, 0.85, 0.9, 0.95))
+	number_label.add_theme_color_override("font_color", Color(0.85, 0.85, 0.9, 0.95))
 	number_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.9))
 	number_label.add_theme_constant_override("shadow_offset_x", 1)
 	number_label.add_theme_constant_override("shadow_offset_y", 1)
@@ -137,6 +144,11 @@ func select_slot(index: int) -> void:
 	# Emitir señal con los datos del slot
 	var data: Dictionary = _slots[_selected_slot].item_data
 	item_selected.emit(_selected_slot, data)
+
+	# Notificar directamente al jugador para equipar/desequipar
+	var player := get_tree().get_first_node_in_group("player") as PlayerController
+	if player:
+		player.on_inventory_item_selected(_selected_slot, data)
 
 
 func _on_slot_selected(slot_index: int) -> void:

@@ -56,6 +56,9 @@ enum MovementMode {
 		weapon_scale = value
 		_apply_weapon_transform()
 
+@export_group("Combate")
+@export var attack_duration: float = 0.8 ## Duración del bloqueo de movimiento durante el ataque cuerpo a cuerpo
+
 # -----------------------------------------------------------------------------
 # VARIABLES PÚBLICAS Y DE APUNTADO (Para armas / mira en el futuro)
 # -----------------------------------------------------------------------------
@@ -71,6 +74,7 @@ var _camera: Camera3D
 var _current_interactable: PickupItem
 var _equipped_weapon_instance: Node3D
 var _current_blend_position: Vector2 = Vector2.ZERO
+var _attack_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -98,8 +102,19 @@ func _ready() -> void:
 	# Configurar el cursor personalizado como mira
 	_setup_custom_crosshair()
 
+	# Conectar con el inventario UI si existe en la escena
+	var inventory := get_tree().get_first_node_in_group("inventory_ui") as InventoryUI
+	if inventory:
+		inventory.item_selected.connect(on_inventory_item_selected)
+		on_inventory_item_selected(inventory.get_selected_slot(), inventory.get_selected_item_data())
+
 
 func _physics_process(delta: float) -> void:
+	if _attack_timer > 0.0:
+		_attack_timer -= delta
+		if _attack_timer <= 0.0:
+			is_attacking = false
+
 	_update_camera_reference()
 	_handle_gravity(delta)
 	_handle_aiming(delta)
@@ -165,8 +180,8 @@ func _handle_aiming(delta: float) -> void:
 # MOVIMIENTO WASD (Orientado al Personaje o a la Cámara)
 # -----------------------------------------------------------------------------
 func _handle_movement(delta: float) -> void:
-	# Si se está ejecutando el ataque, bloquear el desplazamiento y frenar con fricción
-	if is_attacking:
+	# Si se está ejecutando el ataque, bloquear totalmente el desplazamiento y frenar con fricción
+	if is_attacking or _attack_timer > 0.0:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 		velocity.z = move_toward(velocity.z, 0.0, friction * delta)
 		return
@@ -213,13 +228,24 @@ func _handle_movement(delta: float) -> void:
 # ENTRADA DE ATAQUE / ACCIÓN
 # -----------------------------------------------------------------------------
 func _handle_attack_input() -> void:
-	if Input.is_action_just_pressed("attack") and not is_attacking:
+	if Input.is_action_just_pressed("attack") and not is_attacking and _attack_timer <= 0.0:
 		trigger_meele_attack()
 
 
 func trigger_meele_attack() -> void:
 	if not _playback:
 		return
+
+	# Obtener duración exacta de la animación si está disponible en AnimationPlayer
+	var anim_player: AnimationPlayer = find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if anim_player and anim_player.has_animation(ANIM_MEELE_ATTACK):
+		var anim: Animation = anim_player.get_animation(ANIM_MEELE_ATTACK)
+		if anim and anim.length > 0.0:
+			_attack_timer = anim.length
+		else:
+			_attack_timer = attack_duration
+	else:
+		_attack_timer = attack_duration
 
 	is_attacking = true
 	_playback.travel(ANIM_MEELE_ATTACK)
@@ -233,21 +259,17 @@ func _update_animations(delta: float) -> void:
 	if not _playback:
 		return
 
+	# Si estamos en estado de ataque, mantener reposo en el blend y no sobreescribir con Movement
+	if is_attacking or _attack_timer > 0.0:
+		_current_blend_position = _current_blend_position.move_toward(Vector2.ZERO, blend_smoothing_speed * delta)
+		if animation_tree:
+			animation_tree.set("parameters/Movement/blend_position", _current_blend_position)
+		return
+
 	var current_node := _playback.get_current_node()
 
-	# Si estamos en estado de ataque, verificar si ya terminó
-	if is_attacking:
-		if current_node != ANIM_MEELE_ATTACK:
-			is_attacking = false
-		else:
-			# Decaer el blend position hacia reposo mientras dura el ataque
-			_current_blend_position = _current_blend_position.move_toward(Vector2.ZERO, blend_smoothing_speed * delta)
-			if animation_tree:
-				animation_tree.set("parameters/Movement/blend_position", _current_blend_position)
-			return # Dejar que termine la animación de ataque
-
 	# Asegurar que el estado activo sea Movement
-	if current_node != ANIM_MOVEMENT and not is_attacking:
+	if current_node != ANIM_MOVEMENT:
 		_playback.travel(ANIM_MOVEMENT)
 
 	var input_vector := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
@@ -405,6 +427,26 @@ func _apply_weapon_transform() -> void:
 		_equipped_weapon_instance.position = weapon_offset_position
 		_equipped_weapon_instance.rotation_degrees = weapon_offset_rotation_degrees
 		_equipped_weapon_instance.scale = weapon_scale
+
+
+## Desequipa y destruye el arma actualmente montada en la mano derecha
+func unequip_right_hand() -> void:
+	if is_instance_valid(_equipped_weapon_instance):
+		_equipped_weapon_instance.queue_free()
+		_equipped_weapon_instance = null
+
+	var attachment := _get_or_create_hand_attachment()
+	if attachment:
+		for child in attachment.get_children():
+			child.queue_free()
+
+
+## Sincroniza el arma equipada con el slot del inventario seleccionado
+func on_inventory_item_selected(_slot_index: int, item_data: Dictionary) -> void:
+	if item_data.has("weapon_scene") and item_data["weapon_scene"] != null:
+		equip_right_hand(item_data["weapon_scene"])
+	else:
+		unequip_right_hand()
 
 
 # -----------------------------------------------------------------------------

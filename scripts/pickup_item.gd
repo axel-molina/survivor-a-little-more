@@ -101,13 +101,18 @@ func pickup(player: PlayerController) -> void:
 	# Añadir al inventario
 	var inventory := get_tree().get_first_node_in_group("inventory_ui") as InventoryUI
 	if inventory:
-		inventory.add_item(item_name, item_icon, weapon_packed_scene)
-
-	# Equipar en la mano del jugador
-	if weapon_packed_scene:
-		player.equip_right_hand(weapon_packed_scene)
+		var added_slot := inventory.add_item(item_name, item_icon, weapon_packed_scene)
+		if added_slot != -1:
+			inventory.select_slot(added_slot)
+		else:
+			# Inventario lleno
+			if weapon_packed_scene:
+				player.equip_right_hand(weapon_packed_scene)
+	else:
+		# Si no hay inventario, equipar directamente
+		if weapon_packed_scene:
+			player.equip_right_hand(weapon_packed_scene)
 
 	# Eliminar el objeto del suelo (o el nodo raíz del bate)
 	var root_node := get_parent() if get_parent() and get_parent().name == "Bat" else self
 	root_node.queue_free()
-
