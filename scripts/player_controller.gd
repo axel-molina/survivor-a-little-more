@@ -103,8 +103,8 @@ func _physics_process(delta: float) -> void:
 	_update_camera_reference()
 	_handle_gravity(delta)
 	_handle_aiming(delta)
-	_handle_movement(delta)
 	_handle_attack_input()
+	_handle_movement(delta)
 	_update_animations(delta)
 
 	move_and_slide()
@@ -165,6 +165,12 @@ func _handle_aiming(delta: float) -> void:
 # MOVIMIENTO WASD (Orientado al Personaje o a la Cámara)
 # -----------------------------------------------------------------------------
 func _handle_movement(delta: float) -> void:
+	# Si se está ejecutando el ataque, bloquear el desplazamiento y frenar con fricción
+	if is_attacking:
+		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+		velocity.z = move_toward(velocity.z, 0.0, friction * delta)
+		return
+
 	var input_vector := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var move_direction := Vector3.ZERO
 
@@ -234,6 +240,10 @@ func _update_animations(delta: float) -> void:
 		if current_node != ANIM_MEELE_ATTACK:
 			is_attacking = false
 		else:
+			# Decaer el blend position hacia reposo mientras dura el ataque
+			_current_blend_position = _current_blend_position.move_toward(Vector2.ZERO, blend_smoothing_speed * delta)
+			if animation_tree:
+				animation_tree.set("parameters/Movement/blend_position", _current_blend_position)
 			return # Dejar que termine la animación de ataque
 
 	# Asegurar que el estado activo sea Movement
