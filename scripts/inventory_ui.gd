@@ -13,10 +13,13 @@ signal item_selected(slot_index: int, item_data: Dictionary)
 var _slots: Array[InventorySlotUI] = []
 var _selected_slot: int = -1
 
-@onready var hotbar_container: HBoxContainer = $HotbarAnchor/HotbarPanel/MarginContainer/HotbarContainer
+@onready var hotbar_container: HBoxContainer = $HotbarAnchor/CenterContainer/HotbarPanel/MarginContainer/HotbarContainer
 
 
 func _ready() -> void:
+	if not hotbar_container:
+		hotbar_container = find_child("HotbarContainer", true, false) as HBoxContainer
+
 	_create_slots()
 	# Seleccionar el primer slot por defecto
 	select_slot(0)
@@ -63,33 +66,43 @@ func _create_slot_node(index: int) -> InventorySlotUI:
 	slot_style.set_corner_radius_all(6)
 	slot.add_theme_stylebox_override("panel", slot_style)
 
-	# MarginContainer para el ícono
+	# MarginContainer centrado para el ícono
 	var margin := MarginContainer.new()
 	margin.name = "MarginContainer"
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_top", 6)
-	margin.add_theme_constant_override("margin_bottom", 14)
-	margin.add_theme_constant_override("margin_left", 6)
-	margin.add_theme_constant_override("margin_right", 6)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.mouse_filter = Control.MOUSE_FILTER_PASS
 	slot.add_child(margin)
 
-	# TextureRect para el ícono del ítem
+	# TextureRect para el ícono del ítem (centrado exactamente en el slot)
 	var icon_rect := TextureRect.new()
 	icon_rect.name = "IconRect"
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_rect.visible = false
 	margin.add_child(icon_rect)
 
-	# Label con el número del slot
+	# Label con el número del slot en la esquina inferior izquierda
 	var number_label := Label.new()
 	number_label.name = "NumberLabel"
 	number_label.text = str(index + 1)
-	number_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	number_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	number_label.offset_top = -18
-	number_label.add_theme_font_size_override("font_size", 12)
-	number_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7, 0.9))
+	number_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	number_label.offset_left = 6
+	number_label.offset_top = -22
+	number_label.offset_right = 26
+	number_label.offset_bottom = -2
+	number_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	number_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	number_label.add_theme_font_size_override("font_size", 11)
+	number_label.add_theme_color_override("font_color", Color(0.8, 0.85, 0.9, 0.95))
+	number_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.9))
+	number_label.add_theme_constant_override("shadow_offset_x", 1)
+	number_label.add_theme_constant_override("shadow_offset_y", 1)
+	number_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slot.add_child(number_label)
 
 	# Panel de selección (borde dorado)
