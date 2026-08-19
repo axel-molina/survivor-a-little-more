@@ -24,10 +24,6 @@ func _ready() -> void:
 		var meshes := find_children("*", "MeshInstance3D", true, false)
 		if not meshes.is_empty():
 			target_mesh = meshes[0] as MeshInstance3D
-		elif get_parent():
-			var parent_meshes := get_parent().find_children("*", "MeshInstance3D", true, false)
-			if not parent_meshes.is_empty():
-				target_mesh = parent_meshes[0] as MeshInstance3D
 
 	# Crear el material de outline con el shader
 	_setup_outline_material()
