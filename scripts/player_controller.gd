@@ -41,9 +41,20 @@ enum MovementMode {
 
 @export_group("Equipamiento / Armas")
 @export var right_hand_attachment: BoneAttachment3D
-@export var weapon_offset_position: Vector3 = Vector3(0.0, 0.0, 0.0)
-@export var weapon_offset_rotation_degrees: Vector3 = Vector3(0.0, 0.0, 0.0)
-@export var weapon_scale: Vector3 = Vector3(1.0, 1.0, 1.0)
+@export var weapon_offset_position: Vector3 = Vector3(0.0, 0.0, 0.0):
+	set(value):
+		weapon_offset_position = value
+		_apply_weapon_transform()
+
+@export var weapon_offset_rotation_degrees: Vector3 = Vector3(0.0, 0.0, 0.0):
+	set(value):
+		weapon_offset_rotation_degrees = value
+		_apply_weapon_transform()
+
+@export var weapon_scale: Vector3 = Vector3(1.0, 1.0, 1.0):
+	set(value):
+		weapon_scale = value
+		_apply_weapon_transform()
 
 # -----------------------------------------------------------------------------
 # VARIABLES PÚBLICAS Y DE APUNTADO (Para armas / mira en el futuro)
@@ -324,14 +335,33 @@ func _get_or_create_hand_attachment() -> BoneAttachment3D:
 	for child in skeleton.get_children():
 		if child is BoneAttachment3D:
 			var bone_att := child as BoneAttachment3D
-			if bone_att.bone_name == "mixamorig:RightHand" or bone_att.name == "RightHandAttachment":
+			if bone_att.bone_name == "mixamorig:RightHand" or bone_att.bone_name == "RightHand" or bone_att.name == "RightHandAttachment":
 				right_hand_attachment = bone_att
+				if right_hand_attachment.bone_idx < 0:
+					right_hand_attachment.bone_idx = skeleton.find_bone(right_hand_attachment.bone_name)
 				return right_hand_attachment
 
-	# Crear BoneAttachment3D dinámicamente
+	# Buscar el índice del hueso en el Skeleton3D
+	var bone_name_target := "mixamorig:RightHand"
+	var bone_index := skeleton.find_bone(bone_name_target)
+	if bone_index == -1:
+		for alt in ["RightHand", "mixamorig_RightHand", "Right_Hand", "Hand.R"]:
+			bone_index = skeleton.find_bone(alt)
+			if bone_index != -1:
+				bone_name_target = alt
+				break
+
+	if bone_index == -1 and skeleton.get_bone_count() > 22:
+		bone_index = 22
+		bone_name_target = skeleton.get_bone_name(22)
+
+	# Crear BoneAttachment3D dinámicamente con nombre y bone_idx asignados
 	var attachment := BoneAttachment3D.new()
 	attachment.name = "RightHandAttachment"
-	attachment.bone_name = "mixamorig:RightHand"
+	attachment.bone_name = bone_name_target
+	if bone_index >= 0:
+		attachment.bone_idx = bone_index
+
 	skeleton.add_child(attachment)
 	right_hand_attachment = attachment
 	return right_hand_attachment
@@ -355,10 +385,16 @@ func equip_right_hand(weapon_scene: PackedScene) -> void:
 	var weapon: Node3D = weapon_scene.instantiate() as Node3D
 	if weapon:
 		attachment.add_child(weapon)
-		weapon.position = weapon_offset_position
-		weapon.rotation_degrees = weapon_offset_rotation_degrees
-		weapon.scale = weapon_scale
 		_equipped_weapon_instance = weapon
+		_apply_weapon_transform()
+
+
+## Aplica posición, rotación y escala al arma actualmente equipada
+func _apply_weapon_transform() -> void:
+	if is_instance_valid(_equipped_weapon_instance):
+		_equipped_weapon_instance.position = weapon_offset_position
+		_equipped_weapon_instance.rotation_degrees = weapon_offset_rotation_degrees
+		_equipped_weapon_instance.scale = weapon_scale
 
 
 # -----------------------------------------------------------------------------
