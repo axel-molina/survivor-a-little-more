@@ -1,58 +1,35 @@
-[gd_scene format=3 uid="uid://cmenu_scene_main"]
+[gd_scene format=3 uid="uid://dyjl2okxpfbwe"]
 
-[ext_resource type="Script" path="res://scripts/menu_scene.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/Menu/Background.jpg" id="2_bg"]
-[ext_resource type="FontFile" path="res://font/inika/Inika-Bold.ttf" id="3_font_bold"]
+[ext_resource type="Script" uid="uid://cfhfsg2mphhjq" path="res://scripts/menu_scene.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://pof78myjrumu" path="res://assets/Menu/Background.jpg" id="2_bg"]
+[ext_resource type="FontFile" uid="uid://blvhd564jm780" path="res://font/inika/Inika-Bold.ttf" id="3_font_bold"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
-bg_color = Color(0.06, 0.06, 0.1, 0.6)
-border_color = Color(0.4, 0.4, 0.45, 0.7)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 content_margin_left = 24.0
-content_margin_top = 12.0
+content_margin_top = 4.0
 content_margin_right = 24.0
-content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
-bg_color = Color(0.12, 0.12, 0.18, 0.75)
-border_color = Color(1.0, 0.85, 0.3, 0.9)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-content_margin_left = 24.0
-content_margin_top = 12.0
-content_margin_right = 24.0
-content_margin_bottom = 12.0
+content_margin_bottom = 4.0
+draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
-bg_color = Color(0.18, 0.16, 0.08, 0.8)
-border_color = Color(1.0, 0.75, 0.15, 1.0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 content_margin_left = 24.0
 content_margin_top = 12.0
 content_margin_right = 24.0
 content_margin_bottom = 12.0
+draw_center = false
 
-[node name="MenuScene" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.12156863, 0.12156863, 0.18039216, 0.58431375)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="MenuScene" type="Control" unique_id=1858327609]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +38,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1245314970]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,7 +49,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="DarkOverlay" type="ColorRect" parent="."]
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=249966869]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,76 +58,71 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.3)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1651060185]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -180.0
-offset_right = 200.0
-offset_bottom = 180.0
+offset_left = -953.0
+offset_right = 953.0
+offset_bottom = 395.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=1974589955]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.4509804, 0.23529412, 0.16078432, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 50
 theme_override_fonts/font = ExtResource("3_font_bold")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 128
 text = "Survivor a little more"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 60)
-
-[node name="PlayButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+[node name="PlayButton" type="Button" parent="VBoxContainer" unique_id=1264101757]
 custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_constants/h_separation = 4
 theme_override_fonts/font = ExtResource("3_font_bold")
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Jugar"
 
-[node name="OptionsButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+[node name="OptionsButton" type="Button" parent="VBoxContainer" unique_id=955357527]
 custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
 theme_override_fonts/font = ExtResource("3_font_bold")
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Opciones"
 
-[node name="ExitButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=650752473]
 custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
 theme_override_fonts/font = ExtResource("3_font_bold")
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Salir"
