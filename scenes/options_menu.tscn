@@ -1,19 +1,164 @@
-[gd_scene format=3 uid="uid://0k6husjbxfwn"]
+[gd_scene load_steps=19 format=3 uid="uid://df72k20b4q47r"]
 
 [ext_resource type="Script" path="res://scripts/options_menu.gd" id="1_opts"]
-[ext_resource type="Script" path="res://scripts/keybind_button.gd" id="2_keybtn"]
+[ext_resource type="Shader" path="res://shaders/blur_screen.gdshader" id="2_blur"]
+[ext_resource type="FontFile" uid="uid://blvhd564jm780" path="res://font/inika/Inika-Bold.ttf" id="3_font_bold"]
+[ext_resource type="FontFile" uid="uid://c6a8585y2lq0i" path="res://font/inika/Inika-Regular.ttf" id="4_font_reg"]
+[ext_resource type="Script" path="res://scripts/keybind_button.gd" id="5_keybtn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blur"]
+shader = ExtResource("2_blur")
+shader_parameter/blur_amount = 3.0
+shader_parameter/tint_color = Color(0.04, 0.04, 0.07, 0.7)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 28.0
+content_margin_top = 28.0
+content_margin_right = 28.0
+content_margin_bottom = 28.0
+bg_color = Color(0.08, 0.08, 0.12, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.35, 0.2, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 28
+shadow_offset = Vector2(0, 10)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
+color = Color(0.45, 0.35, 0.2, 0.5)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_normal"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_hover"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.18, 0.16, 0.24, 0.75)
+border_width_left = 3
+border_color = Color(1, 0.85, 0.3, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_active"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(0.24, 0.2, 0.12, 0.85)
+border_width_left = 4
+border_color = Color(1, 0.85, 0.3, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_vsep"]
+color = Color(0.45, 0.35, 0.2, 0.4)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 2
+vertical = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_widget_normal"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.12, 0.12, 0.18, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.3, 0.22, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_widget_hover"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.2, 0.18, 0.28, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_widget_pressed"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.28, 0.22, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.3, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_bg"]
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.12, 0.12, 0.18, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.25, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider_grabbed"]
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.85, 0.65, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scroll_bg"]
+draw_center = false
 
 [node name="OptionsMenu" type="CanvasLayer"]
-layer = 10
+layer = 30
 script = ExtResource("1_opts")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="BlurOverlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_blur")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.784314)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -23,325 +168,676 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(800, 500)
+custom_minimum_size = Vector2(920, 580)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MainLayout" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer"]
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/MainLayout/Header"]
 layout_mode = 2
-
-[node name="Sidebar" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 36
 text = "MENU_OPTIONS"
-horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="HeaderSep" type="HSeparator" parent="CenterContainer/PanelContainer/MainLayout"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
 
-[node name="BtnVideo" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="ContentLayout" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="Sidebar" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnVideo" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tab_hover")
+alignment = 0
 text = "OPT_VIDEO"
 
-[node name="BtnAudio" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="BtnAudio" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tab_hover")
+alignment = 0
 text = "OPT_AUDIO"
 
-[node name="BtnGeneral" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="BtnGeneral" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tab_hover")
+alignment = 0
 text = "OPT_GENERAL"
 
-[node name="BtnControls" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="BtnControls" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tab_hover")
+alignment = 0
 text = "OPT_CONTROLS"
 
-[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/Sidebar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.7, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.4, 0.4, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tab_hover")
+alignment = 0
 text = "OPT_BACK"
 
-[node name="VSeparator" type="VSeparator" parent="CenterContainer/PanelContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_vsep")
 
-[node name="TabContainer" type="TabContainer" parent="CenterContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VideoTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab"]
-layout_mode = 2
-columns = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 20
-
-[node name="LblFullscreen" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "OPT_FULLSCREEN"
-
-[node name="ChkFullscreen" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LblResolution" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "OPT_RESOLUTION"
-
-[node name="OptResolution" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LblFPS" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "OPT_FPS_LIMIT"
-
-[node name="OptFPS" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-
-[node name="AudioTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="LblMaster" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-text = "OPT_MASTER_VOL"
-
-[node name="SldMaster" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-max_value = 1.0
-step = 0.05
-value = 1.0
-
-[node name="LblMusic" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-text = "OPT_MUSIC_VOL"
-
-[node name="SldMusic" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-max_value = 1.0
-step = 0.05
-value = 1.0
-
-[node name="LblSFX" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-text = "OPT_SFX_VOL"
-
-[node name="SldSFX" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
-layout_mode = 2
-max_value = 1.0
-step = 0.05
-value = 1.0
-
-[node name="GeneralTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="HBoxLang" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="LblLanguage" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/HBoxLang"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "OPT_LANGUAGE"
-
-[node name="OptLanguage" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/HBoxLang"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ControlsTab" type="ScrollContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Margin" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab"]
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+current_tab = 0
+tabs_visible = false
 
-[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin"]
+[node name="VideoTab" type="MarginContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab"]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
 columns = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 10
 
-[node name="LblFwd" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblFullscreen" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_FULLSCREEN"
+
+[node name="ChkFullscreen" type="CheckButton" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_font_reg")
+theme_override_font_sizes/font_size = 16
+
+[node name="LblResolution" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_RESOLUTION"
+
+[node name="OptResolution" type="OptionButton" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+
+[node name="LblFPS" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_FPS_LIMIT"
+
+[node name="OptFPS" type="OptionButton" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+
+[node name="AudioTab" type="MarginContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="MasterGroup" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderMaster" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MasterGroup"]
+layout_mode = 2
+
+[node name="LblMaster" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MasterGroup/HeaderMaster"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_MASTER_VOL"
+
+[node name="ValMaster" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MasterGroup/HeaderMaster"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="SldMaster" type="HSlider" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MasterGroup"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_grabbed")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_grabbed")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MusicGroup" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderMusic" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MusicGroup"]
+layout_mode = 2
+
+[node name="LblMusic" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MusicGroup/HeaderMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_MUSIC_VOL"
+
+[node name="ValMusic" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MusicGroup/HeaderMusic"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="SldMusic" type="HSlider" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MusicGroup"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_grabbed")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_grabbed")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SFXGroup" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderSFX" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/SFXGroup"]
+layout_mode = 2
+
+[node name="LblSFX" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/SFXGroup/HeaderSFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_SFX_VOL"
+
+[node name="ValSFX" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/SFXGroup/HeaderSFX"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="SldSFX" type="HSlider" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/SFXGroup"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_slider_bg")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_slider_grabbed")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_slider_grabbed")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="GeneralTab" type="MarginContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/GeneralTab"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="HBoxLang" type="HBoxContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/GeneralTab/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LblLanguage" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/GeneralTab/VBox/HBoxLang"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 18
+text = "OPT_LANGUAGE"
+
+[node name="OptLanguage" type="OptionButton" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/GeneralTab/VBox/HBoxLang"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+
+[node name="ControlsTab" type="ScrollContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_scroll_bg")
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="LblFwd" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_MOVE_FORWARD"
 
-[node name="BtnFwd" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnFwd" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "move_forward"
 
-[node name="LblBack" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblBack" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_MOVE_BACKWARD"
 
-[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "move_backward"
 
-[node name="LblLeft" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblLeft" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_MOVE_LEFT"
 
-[node name="BtnLeft" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnLeft" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "move_left"
 
-[node name="LblRight" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblRight" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_MOVE_RIGHT"
 
-[node name="BtnRight" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnRight" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "move_right"
 
-[node name="LblAttack" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblAttack" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_MELEE_ATTACK"
 
-[node name="BtnAttack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnAttack" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "attack"
 
-[node name="LblInteract" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblInteract" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_INTERACT"
 
-[node name="BtnInteract" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnInteract" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "interact"
 
-[node name="LblS1" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS1" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_1"
 
-[node name="BtnS1" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS1" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_1"
 
-[node name="LblS2" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS2" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_2"
 
-[node name="BtnS2" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS2" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_2"
 
-[node name="LblS3" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS3" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_3"
 
-[node name="BtnS3" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS3" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_3"
 
-[node name="LblS4" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS4" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_4"
 
-[node name="BtnS4" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS4" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_4"
 
-[node name="LblS5" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS5" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_5"
 
-[node name="BtnS5" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS5" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_5"
 
-[node name="LblS6" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblS6" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "ACT_SLOT_6"
 
-[node name="BtnS6" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnS6" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "slot_6"
 
-[node name="LblCancel" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="LblCancel" type="Label" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 16
 text = "UI_CANCEL"
 
-[node name="BtnCancel" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+[node name="BtnCancel" type="Button" parent="CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/ControlsTab/Margin/Grid"]
+custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_keybtn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.6, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.85, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_widget_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_widget_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_widget_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_widget_hover")
+script = ExtResource("5_keybtn")
 action_name = "ui_cancel"
-
