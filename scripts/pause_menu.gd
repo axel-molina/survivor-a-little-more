@@ -2,7 +2,10 @@ class_name PauseMenu
 extends CanvasLayer
 
 ## Controlador del menú de pausa.
-## Detiene la ejecución del juego, aplica el efecto de desenfoque y muestra las opciones de navegación.
+## Detiene la ejecución del juego, aplica el efecto de desenfoque y reproduce SFX de UI.
+
+@export var hover_sfx: AudioStream = preload("res://sfx/ui/hover_sound.mp3")
+@export var submit_sfx: AudioStream = preload("res://sfx/ui/submit_sound.wav")
 
 @onready var pause_control: Control = $PauseControl
 @onready var resume_button: Button = $PauseControl/CenterContainer/VBoxContainer/ResumeButton
@@ -10,6 +13,8 @@ extends CanvasLayer
 @onready var exit_button: Button = $PauseControl/CenterContainer/VBoxContainer/ExitButton
 
 var is_paused: bool = false
+var _hover_player: AudioStreamPlayer
+var _submit_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -20,10 +25,45 @@ func _ready() -> void:
 	pause_control.visible = false
 	is_paused = false
 	
+	_setup_audio_players()
+	_setup_button_sounds()
+	
 	# Conectar botones
 	resume_button.pressed.connect(_on_resume_pressed)
 	options_button.pressed.connect(_on_options_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
+
+
+func _setup_audio_players() -> void:
+	_hover_player = AudioStreamPlayer.new()
+	_hover_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	_hover_player.stream = hover_sfx
+	_hover_player.bus = &"Master"
+	add_child(_hover_player)
+
+	_submit_player = AudioStreamPlayer.new()
+	_submit_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	_submit_player.stream = submit_sfx
+	_submit_player.bus = &"Master"
+	add_child(_submit_player)
+
+
+func _setup_button_sounds() -> void:
+	var buttons: Array[Button] = [resume_button, options_button, exit_button]
+	for btn in buttons:
+		if btn:
+			btn.mouse_entered.connect(_play_hover_sfx)
+			btn.focus_entered.connect(_play_hover_sfx)
+
+
+func _play_hover_sfx() -> void:
+	if is_paused and _hover_player and hover_sfx:
+		_hover_player.play()
+
+
+func _play_submit_sfx() -> void:
+	if _submit_player and submit_sfx:
+		_submit_player.play()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -63,15 +103,18 @@ func resume_game() -> void:
 
 
 func _on_resume_pressed() -> void:
+	_play_submit_sfx()
 	resume_game()
 
 
 func _on_options_pressed() -> void:
+	_play_submit_sfx()
 	print("Opciones en pausa: funcionalidad pendiente de implementar.")
 
 
 func _on_exit_pressed() -> void:
-	# Asegurar que el árbol se despause antes de cambiar de escena
+	_play_submit_sfx()
+	await get_tree().create_timer(0.15).timeout
 	get_tree().paused = false
 	Input.set_custom_mouse_cursor(null)
 	get_tree().change_scene_to_file("res://scenes/menu_scene.tscn")
