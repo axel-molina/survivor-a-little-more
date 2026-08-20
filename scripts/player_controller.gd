@@ -236,17 +236,8 @@ func trigger_meele_attack() -> void:
 	if not _playback:
 		return
 
-	# Obtener duración exacta de la animación si está disponible en AnimationPlayer
-	var anim_player: AnimationPlayer = find_child("AnimationPlayer", true, false) as AnimationPlayer
-	if anim_player and anim_player.has_animation(ANIM_MEELE_ATTACK):
-		var anim: Animation = anim_player.get_animation(ANIM_MEELE_ATTACK)
-		if anim and anim.length > 0.0:
-			_attack_timer = anim.length
-		else:
-			_attack_timer = attack_duration
-	else:
-		_attack_timer = attack_duration
-
+	# Usar la duración de ataque configurada (snappy, sin retrasos residuales)
+	_attack_timer = attack_duration
 	is_attacking = true
 	_playback.travel(ANIM_MEELE_ATTACK)
 	attacked.emit(aim_position)
