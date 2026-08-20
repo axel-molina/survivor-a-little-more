@@ -1,0 +1,347 @@
+[gd_scene load_steps=3 format=3 uid="uid://df72k20b4q47r"]
+
+[ext_resource type="Script" path="res://scripts/options_menu.gd" id="1_opts"]
+[ext_resource type="Script" path="res://scripts/keybind_button.gd" id="2_keybtn"]
+
+[node name="OptionsMenu" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_opts")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Sidebar" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "MENU_OPTIONS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+
+[node name="BtnVideo" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+text = "OPT_VIDEO"
+
+[node name="BtnAudio" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+text = "OPT_AUDIO"
+
+[node name="BtnGeneral" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+text = "OPT_GENERAL"
+
+[node name="BtnControls" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+text = "OPT_CONTROLS"
+
+[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/Sidebar"]
+layout_mode = 2
+text = "OPT_BACK"
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VideoTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+
+[node name="LblFullscreen" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPT_FULLSCREEN"
+
+[node name="ChkFullscreen" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblResolution" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPT_RESOLUTION"
+
+[node name="OptResolution" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblFPS" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPT_FPS_LIMIT"
+
+[node name="OptFPS" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/VideoTab/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+
+[node name="AudioTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LblMaster" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+text = "OPT_MASTER_VOL"
+
+[node name="SldMaster" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LblMusic" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+text = "OPT_MUSIC_VOL"
+
+[node name="SldMusic" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LblSFX" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+text = "OPT_SFX_VOL"
+
+[node name="SldSFX" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="GeneralTab" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HBoxLang" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LblLanguage" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/HBoxLang"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPT_LANGUAGE"
+
+[node name="OptLanguage" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/HBoxLang"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ControlsTab" type="ScrollContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Grid" type="GridContainer" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 10
+
+[node name="LblFwd" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_MOVE_FORWARD"
+
+[node name="BtnFwd" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "move_forward"
+
+[node name="LblBack" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_MOVE_BACKWARD"
+
+[node name="BtnBack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "move_backward"
+
+[node name="LblLeft" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_MOVE_LEFT"
+
+[node name="BtnLeft" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "move_left"
+
+[node name="LblRight" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_MOVE_RIGHT"
+
+[node name="BtnRight" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "move_right"
+
+[node name="LblAttack" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_MELEE_ATTACK"
+
+[node name="BtnAttack" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "melee_attack"
+
+[node name="LblInteract" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_INTERACT"
+
+[node name="BtnInteract" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "interact"
+
+[node name="LblS1" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_1"
+
+[node name="BtnS1" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_1"
+
+[node name="LblS2" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_2"
+
+[node name="BtnS2" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_2"
+
+[node name="LblS3" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_3"
+
+[node name="BtnS3" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_3"
+
+[node name="LblS4" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_4"
+
+[node name="BtnS4" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_4"
+
+[node name="LblS5" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_5"
+
+[node name="BtnS5" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_5"
+
+[node name="LblS6" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACT_SLOT_6"
+
+[node name="BtnS6" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "slot_6"
+
+[node name="LblCancel" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "UI_CANCEL"
+
+[node name="BtnCancel" type="Button" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_keybtn")
+action_name = "ui_cancel"
+

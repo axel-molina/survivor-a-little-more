@@ -107,9 +107,14 @@ func _on_resume_pressed() -> void:
 	resume_game()
 
 
+var options_menu_scene: PackedScene = preload("res://scenes/options_menu.tscn")
+
 func _on_options_pressed() -> void:
 	_play_submit_sfx()
-	print("Opciones en pausa: funcionalidad pendiente de implementar.")
+	var opts = options_menu_scene.instantiate()
+	add_child(opts)
+	opts.closed.connect(func(): pause_control.show())
+	pause_control.hide()
 
 
 func _on_exit_pressed() -> void:

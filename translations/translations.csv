@@ -1,0 +1,32 @@
+keys,es,en
+OPT_VIDEO,Video,Video
+OPT_AUDIO,Audio,Audio
+OPT_GENERAL,General,General
+OPT_CONTROLS,Controles,Controls
+OPT_BACK,Volver,Back
+OPT_FULLSCREEN,Pantalla Completa,Fullscreen
+OPT_RESOLUTION,Resolución,Resolution
+OPT_FPS_LIMIT,Límite de FPS,FPS Limit
+OPT_MASTER_VOL,Volumen General,Master Volume
+OPT_MUSIC_VOL,Música,Music
+OPT_SFX_VOL,Efectos de Sonido,SFX
+OPT_LANGUAGE,Idioma,Language
+ACT_MOVE_FORWARD,Mover Adelante,Move Forward
+ACT_MOVE_BACKWARD,Mover Atrás,Move Backward
+ACT_MOVE_LEFT,Mover Izquierda,Move Left
+ACT_MOVE_RIGHT,Mover Derecha,Move Right
+ACT_MELEE_ATTACK,Atacar (Cuerpo a Cuerpo),Melee Attack
+ACT_INTERACT,Interactuar,Interact
+ACT_SLOT_1,Inventario 1,Inventory 1
+ACT_SLOT_2,Inventario 2,Inventory 2
+ACT_SLOT_3,Inventario 3,Inventory 3
+ACT_SLOT_4,Inventario 4,Inventory 4
+ACT_SLOT_5,Inventario 5,Inventory 5
+ACT_SLOT_6,Inventario 6,Inventory 6
+UI_CANCEL,Pausa / Cancelar,Pause / Cancel
+BTN_PRESS_KEY,Presiona una tecla...,Press any key...
+MENU_PLAY,Jugar,Play
+MENU_OPTIONS,Opciones,Options
+MENU_EXIT,Salir,Exit
+MENU_RESUME,Continuar,Resume
+MENU_EXIT_GAME,Salir del juego,Exit game
