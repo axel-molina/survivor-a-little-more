@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Survivor A Little More"
-run/main_scene="uid://dllkirmnjk2yx"
+run/main_scene="res://scenes/menu_scene.tscn"
 config/features=PackedStringArray("4.8", "GL Compatibility")
 config/icon="res://icon.svg"
 
