@@ -14,6 +14,7 @@ extends CanvasLayer
 @onready var chk_fullscreen: CheckButton = $CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid/ChkFullscreen
 @onready var opt_resolution: OptionButton = $CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid/OptResolution
 @onready var opt_fps: OptionButton = $CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid/OptFPS
+@onready var chk_show_fps: CheckButton = $CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/VideoTab/Grid/ChkShowFPS
 
 # Controles Audio
 @onready var sld_master: HSlider = $CenterContainer/PanelContainer/MainLayout/ContentLayout/TabContainer/AudioTab/VBox/MasterGroup/SldMaster
@@ -68,6 +69,7 @@ func _ready() -> void:
 	chk_fullscreen.toggled.connect(_on_fullscreen_toggled)
 	opt_resolution.item_selected.connect(_on_resolution_selected)
 	opt_fps.item_selected.connect(_on_fps_selected)
+	chk_show_fps.toggled.connect(func(v): SettingsManager.set_show_fps(v))
 	
 	# Conexiones UI Audio
 	sld_master.value_changed.connect(_on_master_volume_changed)
@@ -189,6 +191,8 @@ func _load_current_values() -> void:
 		if opt_fps.get_item_metadata(i) == fps:
 			opt_fps.select(i)
 			break
+			
+	chk_show_fps.button_pressed = c.get_value(SettingsManager.SECTION_VIDEO, "show_fps", false)
 			
 	# Audio
 	var m_vol = c.get_value(SettingsManager.SECTION_AUDIO, "master", 1.0)

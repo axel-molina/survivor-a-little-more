@@ -7,6 +7,7 @@ OPT_BACK,Volver,Back
 OPT_FULLSCREEN,Pantalla Completa,Fullscreen
 OPT_RESOLUTION,Resolución,Resolution
 OPT_FPS_LIMIT,Límite de FPS,FPS Limit
+OPT_SHOW_FPS,Mostrar FPS,Show FPS
 OPT_MASTER_VOL,Volumen General,Master Volume
 OPT_MUSIC_VOL,Música,Music
 OPT_SFX_VOL,Efectos de Sonido,SFX

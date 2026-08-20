@@ -13,10 +13,65 @@ const SECTION_CONTROLS = "controls"
 signal settings_applied
 
 
+var _fps_layer: CanvasLayer
+var _fps_label: Label
+var _show_fps: bool = false
+var _fps_update_timer: float = 0.0
+
+
 func _ready() -> void:
 	# Este nodo no debe pausarse, para que las opciones puedan cambiarse
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_setup_fps_counter()
 	load_settings()
+
+
+func _process(delta: float) -> void:
+	if _show_fps and is_instance_valid(_fps_label):
+		_fps_update_timer += delta
+		if _fps_update_timer >= 0.1:
+			_fps_update_timer = 0.0
+			_fps_label.text = "%d FPS" % Engine.get_frames_per_second()
+
+
+func _setup_fps_counter() -> void:
+	_fps_layer = CanvasLayer.new()
+	_fps_layer.name = "FPSOverlay"
+	_fps_layer.layer = 128
+	_fps_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	var margin := MarginContainer.new()
+	margin.anchors_preset = Control.PRESET_TOP_RIGHT
+	margin.anchor_left = 1.0
+	margin.anchor_right = 1.0
+	margin.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 16)
+	
+	_fps_label = Label.new()
+	_fps_label.name = "FPSLabel"
+	_fps_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	if ResourceLoader.exists("res://font/inika/Inika-Bold.ttf"):
+		var font := load("res://font/inika/Inika-Bold.ttf") as Font
+		if font:
+			_fps_label.add_theme_font_override("font", font)
+			
+	_fps_label.add_theme_font_size_override("font_size", 14)
+	_fps_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.45, 0.95))
+	_fps_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
+	_fps_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1.0))
+	_fps_label.add_theme_constant_override("outline_size", 5)
+	_fps_label.add_theme_constant_override("shadow_offset_x", 1)
+	_fps_label.add_theme_constant_override("shadow_offset_y", 1)
+	_fps_label.text = "60 FPS"
+	
+	margin.add_child(_fps_label)
+	_fps_layer.add_child(margin)
+	add_child(_fps_layer)
+	
+	_fps_layer.visible = _show_fps
 
 
 func load_settings() -> void:
@@ -79,6 +134,7 @@ func _setup_default_settings() -> void:
 	config.set_value(SECTION_VIDEO, "resolution_w", screen_size.x)
 	config.set_value(SECTION_VIDEO, "resolution_h", screen_size.y)
 	config.set_value(SECTION_VIDEO, "fps_limit", 60)
+	config.set_value(SECTION_VIDEO, "show_fps", false)
 	
 	# Audio (1.0 = 0 dB)
 	config.set_value(SECTION_AUDIO, "master", 1.0)
@@ -105,6 +161,9 @@ func apply_all_settings() -> void:
 	var fps = config.get_value(SECTION_VIDEO, "fps_limit", 60)
 	set_fps_limit(fps, false)
 	
+	var show_fps = config.get_value(SECTION_VIDEO, "show_fps", false)
+	set_show_fps(show_fps, false)
+	
 	# --- Audio ---
 	set_volume("Master", config.get_value(SECTION_AUDIO, "master", 1.0), false)
 	set_volume("Music", config.get_value(SECTION_AUDIO, "music", 1.0), false)
@@ -120,6 +179,14 @@ func apply_all_settings() -> void:
 
 
 # --- MÉTODOS DE APLICACIÓN INDIVIDUAL ---
+
+func set_show_fps(value: bool, auto_save: bool = true) -> void:
+	_show_fps = value
+	config.set_value(SECTION_VIDEO, "show_fps", value)
+	if is_instance_valid(_fps_layer):
+		_fps_layer.visible = value
+	if auto_save: save_settings()
+
 
 func set_fullscreen(value: bool, auto_save: bool = true) -> void:
 	config.set_value(SECTION_VIDEO, "fullscreen", value)
