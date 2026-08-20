@@ -17,8 +17,8 @@ func _ready() -> void:
 	_update_text()
 
 
-func _on_toggled(button_pressed: bool) -> void:
-	if button_pressed:
+func _on_toggled(p_toggled: bool) -> void:
+	if p_toggled:
 		is_waiting_for_input = true
 		text = tr("BTN_PRESS_KEY")
 		# Cambiar color o estilo visual si se desea

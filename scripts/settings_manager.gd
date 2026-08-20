@@ -101,7 +101,7 @@ func set_resolution(size: Vector2i, auto_save: bool = true) -> void:
 		DisplayServer.window_set_size(size)
 		# Centrar ventana
 		var screen_size = DisplayServer.screen_get_size()
-		var window_pos = (screen_size - size) / 2
+		var window_pos = Vector2i(int(float(screen_size.x - size.x) / 2.0), int(float(screen_size.y - size.y) / 2.0))
 		DisplayServer.window_set_position(window_pos)
 	if auto_save: save_settings()
 

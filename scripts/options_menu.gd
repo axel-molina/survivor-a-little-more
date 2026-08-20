@@ -20,7 +20,7 @@ extends CanvasLayer
 @onready var sld_sfx: HSlider = $CenterContainer/PanelContainer/HBoxContainer/TabContainer/AudioTab/VBox/SldSFX
 
 # Controles General
-@onready var opt_language: OptionButton = $CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/OptLanguage
+@onready var opt_language: OptionButton = $CenterContainer/PanelContainer/HBoxContainer/TabContainer/GeneralTab/VBox/HBoxLang/OptLanguage
 
 # SFX
 @export var hover_sfx: AudioStream = preload("res://sfx/ui/hover_sound.mp3")
