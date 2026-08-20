@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://df72k20b4q47r"]
+[gd_scene format=3 uid="uid://0k6husjbxfwn"]
 
 [ext_resource type="Script" path="res://scripts/options_menu.gd" id="1_opts"]
 [ext_resource type="Script" path="res://scripts/keybind_button.gd" id="2_keybtn"]
@@ -255,7 +255,7 @@ text = "ACT_MELEE_ATTACK"
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_keybtn")
-action_name = "melee_attack"
+action_name = "attack"
 
 [node name="LblInteract" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/TabContainer/ControlsTab/Margin/Grid"]
 layout_mode = 2

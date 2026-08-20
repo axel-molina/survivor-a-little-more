@@ -20,6 +20,7 @@ func _ready() -> void:
 
 
 func load_settings() -> void:
+	_ensure_default_input_map()
 	var err = config.load(SETTINGS_FILE_PATH)
 	if err != OK:
 		# Si no existe, configurar valores por defecto
@@ -27,6 +28,43 @@ func load_settings() -> void:
 		save_settings()
 	
 	apply_all_settings()
+
+
+func _ensure_default_input_map() -> void:
+	var default_keys: Dictionary = {
+		"move_forward": KEY_W,
+		"move_backward": KEY_S,
+		"move_left": KEY_A,
+		"move_right": KEY_D,
+		"interact": KEY_F,
+		"slot_1": KEY_1,
+		"slot_2": KEY_2,
+		"slot_3": KEY_3,
+		"slot_4": KEY_4,
+		"slot_5": KEY_5,
+		"slot_6": KEY_6,
+		"ui_cancel": KEY_ESCAPE
+	}
+	for action in default_keys:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			var ev := InputEventKey.new()
+			ev.physical_keycode = default_keys[action]
+			InputMap.action_add_event(action, ev)
+		elif InputMap.action_get_events(action).is_empty():
+			var ev := InputEventKey.new()
+			ev.physical_keycode = default_keys[action]
+			InputMap.action_add_event(action, ev)
+
+	if not InputMap.has_action("attack"):
+		InputMap.add_action("attack")
+		var mouse_event := InputEventMouseButton.new()
+		mouse_event.button_index = MOUSE_BUTTON_LEFT
+		InputMap.action_add_event("attack", mouse_event)
+	elif InputMap.action_get_events("attack").is_empty():
+		var mouse_event := InputEventMouseButton.new()
+		mouse_event.button_index = MOUSE_BUTTON_LEFT
+		InputMap.action_add_event("attack", mouse_event)
 
 
 func save_settings() -> void:
@@ -159,7 +197,7 @@ func _serialize_input_event(event: InputEvent) -> Dictionary:
 	var dict = {}
 	if event is InputEventKey:
 		dict["type"] = "key"
-		dict["keycode"] = event.physical_keycode
+		dict["keycode"] = event.physical_keycode if event.physical_keycode != 0 else event.keycode
 	elif event is InputEventMouseButton:
 		dict["type"] = "mouse"
 		dict["button_index"] = event.button_index
@@ -172,6 +210,7 @@ func _deserialize_input_event(dict: Dictionary) -> InputEvent:
 	if dict["type"] == "key":
 		var ev = InputEventKey.new()
 		ev.physical_keycode = dict["keycode"]
+		ev.keycode = dict["keycode"]
 		return ev
 	elif dict["type"] == "mouse":
 		var ev = InputEventMouseButton.new()

@@ -26,19 +26,13 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Teclas numéricas 1-6 para seleccionar slots
-	if event is InputEventKey and event.pressed and not event.echo:
-		var key_num := -1
-		match event.keycode:
-			KEY_1: key_num = 0
-			KEY_2: key_num = 1
-			KEY_3: key_num = 2
-			KEY_4: key_num = 3
-			KEY_5: key_num = 4
-			KEY_6: key_num = 5
-
-		if key_num >= 0 and key_num < _slots.size():
-			select_slot(key_num)
+	for i in range(slot_count):
+		var action := "slot_%d" % (i + 1)
+		if event.is_action_pressed(action) and not event.is_echo():
+			if i < _slots.size():
+				select_slot(i)
+				get_viewport().set_input_as_handled()
+				return
 
 
 func _create_slots() -> void:

@@ -64,14 +64,16 @@ func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/test_scene.tscn")
 
 
+@onready var menu_container: VBoxContainer = $VBoxContainer
+
 var options_menu_scene: PackedScene = preload("res://scenes/options_menu.tscn")
 
 func _on_options_pressed() -> void:
 	_play_submit_sfx()
 	var opts = options_menu_scene.instantiate()
 	add_child(opts)
-	opts.closed.connect(func(): $CenterContainer.show())
-	$CenterContainer.hide()
+	opts.closed.connect(func(): menu_container.show())
+	menu_container.hide()
 
 
 func _on_exit_pressed() -> void:

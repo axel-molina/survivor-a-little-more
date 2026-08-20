@@ -60,9 +60,14 @@ func _update_text() -> void:
 	var ev = SettingsManager.get_action_event(action_name)
 	if ev:
 		if ev is InputEventKey:
-			text = OS.get_keycode_string(ev.physical_keycode)
+			var code = ev.physical_keycode if ev.physical_keycode != 0 else ev.keycode
+			text = OS.get_keycode_string(code)
 		elif ev is InputEventMouseButton:
-			text = "Mouse " + str(ev.button_index)
+			match ev.button_index:
+				MOUSE_BUTTON_LEFT: text = "Click Izq (Mouse 1)"
+				MOUSE_BUTTON_RIGHT: text = "Click Der (Mouse 2)"
+				MOUSE_BUTTON_MIDDLE: text = "Click Medio (Mouse 3)"
+				_: text = "Mouse " + str(ev.button_index)
 		else:
 			text = "..."
 	else:
