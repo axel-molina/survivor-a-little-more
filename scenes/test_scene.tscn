@@ -3,9 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://dysnpslhua5v2" path="res://scenes/floor_test.tscn" id="1_j8ivh"]
 [ext_resource type="PackedScene" uid="uid://c6xk4y8t3qw4e" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://b5mwfh4nulrhm" path="res://scripts/isometric_camera.gd" id="3_camera"]
-[ext_resource type="PackedScene" uid="uid://c6xk9v8t4qw1p" path="res://scenes/bat_pickup.tscn" id="4_bat_pickup"]
+[ext_resource type="PackedScene" uid="uid://c6xlav8t4qw1p" path="res://scenes/bat_pickup.tscn" id="4_bat_pickup"]
 [ext_resource type="PackedScene" uid="uid://ch8x7q2m6k5pl" path="res://scenes/interaction_ui.tscn" id="5_ui"]
-[ext_resource type="PackedScene" uid="uid://cinventory_hotbar" path="res://scenes/inventory_ui.tscn" id="6_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/inventory_ui.tscn" id="6_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="7_pause"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7ddre"]
 sky_top_color = Color(0.38533452, 0.6168895, 0.7569055, 1)
@@ -38,9 +39,11 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0.30027997, 6.085767)
 move_speed = 2.0
 friction = 80.0
 rotation_speed = 15.0
+blend_smoothing_speed = 24.0
 weapon_offset_position = Vector3(0.227, 0.102, -0.056)
 weapon_offset_rotation_degrees = Vector3(7.3, -73.4, -28.9)
 weapon_scale = Vector3(0.5, 0.5, 0.5)
+attack_duration = 0.9
 
 [node name="IsometricCamera" type="Camera3D" parent="." unique_id=1948201948]
 transform = Transform3D(0.70710677, -0.42426407, 0.5656854, 0, 0.8, 0.6, -0.70710677, -0.42426407, 0.5656854, 10, 14, 10)
@@ -55,5 +58,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.933735, 0.32385933, 6.113
 
 [node name="InteractionUI" parent="." unique_id=666127019 instance=ExtResource("5_ui")]
 
-[node name="InventoryUI" parent="." instance=ExtResource("6_inventory")]
+[node name="InventoryUI" parent="." unique_id=1385588308 instance=ExtResource("6_inventory")]
 
+[node name="PauseMenu" parent="." instance=ExtResource("7_pause")]
