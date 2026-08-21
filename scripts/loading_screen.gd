@@ -1,37 +1,23 @@
 class_name LoadingScreen
 extends Control
 
-## Pantalla de carga asíncrona con fondo temático, barra de progreso e información de consejos.
+## Pantalla de carga asíncrona con fondo temático y barra de progreso.
 
 @export_file("*.tscn") var target_scene_path: String = "res://scenes/test_scene.tscn"
 @export var min_loading_time: float = 2.0
 
 @onready var progress_bar: ProgressBar = $BottomContainer/VBox/ProgressSection/ProgressBar
 @onready var percent_label: Label = $BottomContainer/VBox/ProgressSection/HeaderProgress/PercentLabel
-@onready var tip_label: Label = $BottomContainer/VBox/TipContainer/VBoxTip/TipText
 @onready var fade_overlay: ColorRect = $FadeOverlay
 
 var _elapsed_time: float = 0.0
 var _display_progress: float = 0.0
 var _is_transitioning_out: bool = false
 
-const TIPS: Array[String] = [
-	"Presiona las teclas 1 a 6 para cambiar rápidamente entre los objetos de tu inventario.",
-	"El ataque con el bate inmoviliza brevemente a tu personaje durante el golpe. ¡Calcula bien la distancia!",
-	"Explora el entorno con la tecla F para recoger bates y suministros abandonados.",
-	"Usa la tecla Escape en cualquier momento para pausar la partida y ajustar las opciones.",
-	"Puedes personalizar todos los controles, la resolución y el límite de FPS desde el menú de opciones.",
-	"Si mantienes pulsado el botón de ataque mientras te mueves, tu velocidad se detendrá hasta finalizar el golpe.",
-	"La mira personalizada te indica la dirección exacta de ataque de tu personaje."
-]
-
 
 func _ready() -> void:
 	# Restaurar cursor estándar
 	Input.set_custom_mouse_cursor(null)
-	
-	# Seleccionar consejo aleatorio
-	_show_random_tip()
 	
 	# Configurar barra en 0
 	progress_bar.value = 0.0
@@ -79,12 +65,6 @@ func _process(delta: float) -> void:
 	# Si se completó la carga y el tiempo mínimo
 	if status == ResourceLoader.THREAD_LOAD_LOADED and _elapsed_time >= min_loading_time and _display_progress >= 0.999:
 		_finish_loading()
-
-
-func _show_random_tip() -> void:
-	if TIPS.size() > 0:
-		var index := randi() % TIPS.size()
-		tip_label.text = TIPS[index]
 
 
 func _finish_loading() -> void:

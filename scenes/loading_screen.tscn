@@ -1,37 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://b82kdpk619mvy"]
+[gd_scene load_steps=8 format=3 uid="uid://b82kdpk619mvy"]
 
 [ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bkd5xly4s2i3j" path="res://assets/Menu/ChargeScreen.jpeg" id="2_bg"]
 [ext_resource type="FontFile" uid="uid://blvhd564jm780" path="res://font/inika/Inika-Bold.ttf" id="3_font_bold"]
-[ext_resource type="FontFile" uid="uid://c6a8585y2lq0i" path="res://font/inika/Inika-Regular.ttf" id="4_font_reg"]
 
 [sub_resource type="Gradient" id="Gradient_bottom_shadow"]
-offsets = PackedFloat32Array(0, 0.4, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0.04, 0.04, 0.07, 0.75, 0.02, 0.02, 0.04, 0.95)
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.04, 0.04, 0.07, 0.6, 0.02, 0.02, 0.04, 0.9)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bottom_shadow"]
 gradient = SubResource("Gradient_bottom_shadow")
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tip_panel"]
-content_margin_left = 20.0
-content_margin_top = 14.0
-content_margin_right = 20.0
-content_margin_bottom = 14.0
-bg_color = Color(0.08, 0.08, 0.12, 0.8)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.45, 0.35, 0.2, 0.6)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.5)
-shadow_size = 12
-shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prog_bg"]
 bg_color = Color(0.1, 0.1, 0.15, 0.85)
@@ -79,12 +59,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.15)
+color = Color(0, 0, 0, 0.1)
 
 [node name="BottomGradient" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 12
-anchor_top = 0.55
+anchor_top = 0.7
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -98,7 +78,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -220.0
+offset_top = -120.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 80
@@ -107,40 +87,7 @@ theme_override_constants/margin_bottom = 44
 
 [node name="VBox" type="VBoxContainer" parent="BottomContainer"]
 layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="TipContainer" type="PanelContainer" parent="BottomContainer/VBox"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_tip_panel")
-
-[node name="VBoxTip" type="VBoxContainer" parent="BottomContainer/VBox/TipContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="TipTitle" type="Label" parent="BottomContainer/VBox/TipContainer/VBoxTip"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_font_bold")
-theme_override_font_sizes/font_size = 14
-text = "CONSEJO DE SUPERVIVENCIA"
-
-[node name="TipText" type="Label" parent="BottomContainer/VBox/TipContainer/VBoxTip"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.92, 0.92, 0.95, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("4_font_reg")
-theme_override_font_sizes/font_size = 16
-text = "Presiona las teclas 1 a 6 para cambiar rápidamente entre los objetos de tu inventario."
-autowrap_mode = 2
+theme_override_constants/separation = 12
 
 [node name="ProgressSection" type="VBoxContainer" parent="BottomContainer/VBox"]
 layout_mode = 2
@@ -158,7 +105,7 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_font_bold")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 text = "Cargando..."
 
 [node name="Spacer" type="Control" parent="BottomContainer/VBox/ProgressSection/HeaderProgress"]
@@ -174,7 +121,7 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("3_font_bold")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 text = "0%"
 
 [node name="ProgressBar" type="ProgressBar" parent="BottomContainer/VBox/ProgressSection"]
