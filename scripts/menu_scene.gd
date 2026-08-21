@@ -61,7 +61,7 @@ func _play_submit_sfx() -> void:
 func _on_play_pressed() -> void:
 	_play_submit_sfx()
 	await get_tree().create_timer(0.15).timeout
-	get_tree().change_scene_to_file("res://scenes/test_scene.tscn")
+	get_tree().change_scene_to_file("res://scenes/loading_screen.tscn")
 
 
 @onready var menu_container: VBoxContainer = $VBoxContainer
